@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Personagem controlável e animado</title>
+   <script src="spritesheet.js"></script>
+   <script src="animacao.js"></script> 
+   <script src="teclado.js"></script> 
+   <script src="figura.js"></script>
+   <script src="pulo.js"></script>
+</head>
+
+<body>
+   <canvas id="canvas_wall" width="500" height="500"></canvas>
+   <script>
+      var canvas = document.getElementById('canvas_wall');
+      var context = canvas.getContext('2d');
+	  
+	  var pulo = new Pulo(context);
+      var teclado = new Teclado(document); 
+      var animacao = new Animacao(context); 
+
+      var imgCorrendo = new Image(); 
+	  var imgPulo = new Image();
+	  var imgQueda = new Image();
+      imgCorrendo.src = 'img/sprite1.png'; 
+	  imgPulo.src = 'img/pulo.gif';
+	  imgQueda.src = 'img/queda.gif';
+	  
+	  
+	  
+      var figura = new Figura(context, teclado, imgCorrendo);
+      figura.x = 0; 
+      figura.y = 200; 
+      animacao.novoSprite(figura);
+		
+	  var sheet = new Spritesheet(context, imgCorrendo, 4, 8);
+	  sheet.intervalo = 70;
+
+      // "correndo pro caralho" 
+      sheet.linha = 2; 
+
+      // Animação
+      imgCorrendo.onload = gameLoop; 
+
+      function gameLoop() { 
+         context.clearRect(0, 0, context.canvas.width,
+               context.canvas.height); 
+
+         // Avançar na animação
+         sheet.proximoQuadro();
+
+         // Onde desenhar o quadro atual 
+         sheet.desenhar(100, 100);
+
+         requestAnimationFrame(gameLoop); 
+      }
+   </script>
+</body>
+
+</html>
+
+
+
